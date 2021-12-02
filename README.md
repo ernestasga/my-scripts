@@ -29,3 +29,6 @@ Scrape websites and output results to .xlsx files
 * [x] Skelbiu.lt
 
 Written in Python 3.9
+
+## Translations
+Translate texts for CakePHP from excel files
