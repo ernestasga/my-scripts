@@ -32,3 +32,6 @@ Written in Python 3.9
 
 ## Translations
 Translate texts for CakePHP from excel files
+
+## Medias Hardlink
+Hardlink downloaded media (Movies or TV Shows) for self hosted media server
