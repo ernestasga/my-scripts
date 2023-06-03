@@ -27,7 +27,7 @@ def parse_source(source: str) -> dict:
                     if 'season' not in file_info:
                         links.append({
                             'source': f"{source}/{file}",
-                            'destination': build_destination_dir('tv', file_info['title'])
+                            'destination': build_destination_dir('movie', file_info['title'])
                         })
                     else:
                         links.append({
@@ -41,12 +41,12 @@ def parse_source(source: str) -> dict:
         if file_info:
             if 'season' not in file_info:
                 links.append({
-                    'source': f"{source}/{filename}",
-                    'destination': build_destination_dir('tv', file_info['title'])
+                    'source': source,
+                    'destination': build_destination_dir('movie', file_info['title'])
                 })
             else:
                 links.append({
-                    'source': f"{source}/{filename}",
+                    'source': source,
                     'season': file_info['season'],
                     'destination': build_destination_dir('tv', file_info['title'], file_info['season'])
                 })
