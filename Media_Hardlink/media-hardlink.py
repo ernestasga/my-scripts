@@ -97,7 +97,7 @@ def main():
     items = parse_source(source)
     # Run in preview mode
     preview_mode_input = input("Preview mode? (Y/n): ")
-    preview_mode = preview_mode_input.lower() == 'y' or preview_mode_input == ""
+    preview_mode = preview_mode_input.lower() == 'y' or preview_mode_input == ''
     if not preview_mode:
         hardlink_media(items)
         print("Done")
