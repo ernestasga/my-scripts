@@ -35,3 +35,13 @@ Translate texts for CakePHP from excel files
 
 ## Medias Hardlink
 Hardlink downloaded media (Movies or TV Shows) for self hosted media server
+
+# Investment Projects Alerts
+Receive alerts when new projects appear on crowdfunding sites.
+
+**Supported Sites:**
+* [x] *Profitus.lt*
+
+This script should be called every few minutes with cronjob or something similar.
+
+Create `.env` file within script directory. Use `.env.example` as a template.
