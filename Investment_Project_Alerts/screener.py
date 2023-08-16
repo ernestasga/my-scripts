@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 class ProfitusProjectScreener:
-    url = "https://api.profitus.com/api/v1/landing/projects?limit=1&page=1"
+    url = "https://api.profitus.com/api/v1/landing/projects?limit=2&page=1"
 
     def get_featured_projects(self):
         response = requests.get(self.url)
@@ -78,10 +78,10 @@ class NewInvestmentProjectScreener:
 
     def save_projects_to_database(self, projects: list[dict]):
         for project in projects:
-            # self.conn.execute(
-            #     "INSERT INTO PROJECTS (name, status, interest_rate, percentage_invested, preview_url, platform, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            #     (project['name'], project['status'], project['interest_rate'], project['percentage_invested'], project['preview_url'], project['platform'], project['last_updated'])
-            # )
+            self.conn.execute(
+                "INSERT INTO PROJECTS (name, status, interest_rate, percentage_invested, preview_url, platform, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (project['name'], project['status'], project['interest_rate'], project['percentage_invested'], project['preview_url'], project['platform'], project['last_updated'])
+            )
             self.send_alert(project)
         self.conn.commit()
 
@@ -145,7 +145,6 @@ class NewInvestmentProjectScreener:
             </body>
         </html>
         """
-
         msg.attach(MIMEText(text, 'plain'))
         msg.attach(MIMEText(html, 'html'))
         msg['From'] = f"Investment Alert <{self.smtp_config['username']}>"
