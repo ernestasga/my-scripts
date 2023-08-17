@@ -7,11 +7,12 @@ import os
 from dotenv import load_dotenv
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from typing import List
 
 class ProfitusProjectScreener:
     url = "https://api.profitus.com/api/v1/landing/projects?limit=2&page=1"
 
-    def get_featured_projects(self):
+    def get_featured_projects(self) -> List[dict]:
         response = requests.get(self.url)
         raw_projects = response.json()['data']
         projects = [{
@@ -41,7 +42,7 @@ class NewInvestmentProjectScreener:
         self.mailer_recipients = os.environ.get('EMAIL_RECIPIENTS')
         self.conn = self.setup_database_connection()
 
-    def setup_database_connection(self):
+    def setup_database_connection(self) -> sqlite3.Connection:
         conn = sqlite3.connect('projects.db')
         # create table if not exists
         conn.execute('''
@@ -58,7 +59,7 @@ class NewInvestmentProjectScreener:
         ''')
         return conn
 
-    def fetch_database_projects(self):
+    def fetch_database_projects(self) -> List[dict]:
         cursor = self.conn.execute("SELECT * from PROJECTS")
         projects = cursor.fetchall()
         projects_list = []
@@ -76,7 +77,7 @@ class NewInvestmentProjectScreener:
             projects_list.append(project_dict)
         return projects_list
 
-    def save_projects_to_database(self, projects: list[dict]):
+    def save_projects_to_database(self, projects: List[dict]) -> None:
         for project in projects:
             self.conn.execute(
                 "INSERT INTO PROJECTS (name, status, interest_rate, percentage_invested, preview_url, platform, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -85,7 +86,7 @@ class NewInvestmentProjectScreener:
             self.send_alert(project)
         self.conn.commit()
 
-    def build_email_message(self, project: dict):
+    def build_email_message(self, project: dict) -> email.message.Message:
         msg = MIMEMultipart('alternative')
         text = f"""
             A new project has been added to {project['platform']}.\n
@@ -153,13 +154,13 @@ class NewInvestmentProjectScreener:
 
         return msg
 
-    def setup_email_connection(self):
+    def setup_email_connection(self) -> smtplib.SMTP:
         connection = smtplib.SMTP(self.smtp_config['host'], self.smtp_config['port'])
         connection.starttls()
         connection.login(self.smtp_config['username'], self.smtp_config['password'])
         return connection
     
-    def send_alert(self, project: dict):
+    def send_alert(self, project: dict) -> None:
         try:
             msg = self.build_email_message(project)
             connection = self.setup_email_connection()
