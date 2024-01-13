@@ -45,3 +45,6 @@ Receive alerts when new projects appear on crowdfunding sites.
 This script should be called every few minutes with cronjob or something similar.
 
 Create `.env` file within script directory. Use `.env.example` as a template.
+
+# Solar
+Solar panel LAN sdata scrapers
